@@ -585,7 +585,110 @@ if (self !== top) {
 </div>
 <input id="embed_code_field" type="hidden" value="<iframe scrolling=&quot;no&quot; allowTransparency=&quot;true&quot; allowfullscreen frameborder=&quot;0&quot; width=&quot;640&quot; height=&quot;360&quot; src=&quot;https://ga.vyond.com/player/embed/09NT7zVNrDlw&quot; ></iframe>
 "/>
+<script>
+    var flashPlayerUrl = 'https://web.archive.org/web/20191104072153/https://d3v4eglovri8yt.cloudfront.net/animation/66453a3ba2cc5e1b/player.swf',
+        flashPlayerVars = {"movieOwner":"Gabby+the+PatB+Girl","movieOwnerId":"05_ECIL1n9t4","movieId":"09NT7zVNrDlw","movieLid":"0","movieTitle":"Day+25+Final","movieDesc":"","userId":"","username":"","uemail":"","ut":"-1","numContact":"","apiserver":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/ga.vyond.com\/","duration":"3","playcount":1,"thumbnailURL":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/s3.amazonaws.com\/fs.goanimate.com\/files\/thumbnails\/movie\/1927\/7201927\/25238467L.jpg","copyable":"0","isPublished":"1","ctc":"go","tlang":"en_US","is_private_shared":"0","autostart":"0","appCode":"go","is_slideshow":"0","originalId":"0Y7-ebJ36Ip4","is_emessage":"0","storePath":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/d3v4eglovri8yt.cloudfront.net\/store\/3a981f5cb2739137\/<store>","clientThemePath":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/d3v4eglovri8yt.cloudfront.net\/static\/3862a313e72d6e0a\/<client_theme>","animationPath":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/d3v4eglovri8yt.cloudfront.net\/animation\/66453a3ba2cc5e1b\/","isEmbed":"0","refuser":null,"utm_source":null,"uid":null,"isTemplate":"0","showButtons":"1","chain_mids":"","averageRating":5,"ratingCount":"1","fb_app_url":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/ga.vyond.com\/","ad":1,"endStyle":0,"isWide":"1","pwm":1,"s3base":"https:\/\/web.archive.org\/web\/20191104072153\/https:\/\/s3.amazonaws.com\/fs.goanimate.com\/,https:\/\/assets.vyond.com\/","initcb":"flashPlayerLoaded","showshare":false},
+        h5PlayerElem = null,
+        sceneDetails = {};
+</script>
 
+<script src="https://josephcrosmanplays532.github.io/static/55910a7cd204c37c/go/js/h5preview/media-controller.js.gz.js"></script>
+<script src="https://josephcrosmanplays532.github.io/static/55910a7cd204c37c/go/js/video_page.js.gz.js"></script>
+<script src="https://josephcrosmanplays532.github.io/static/55910a7cd204c37c/go/js/video_page_worknote.js.gz.js"></script>
+<script src="https://josephcrosmanplays532.github.io/static/55910a7cd204c37c/go/js/video_page_player.js.gz.js"></script>
+<script src="https://josephcrosmanplays532.github.io/static/55910a7cd204c37c/go/js/video_page_player_control.js.gz.js"></script>
+<script>
+    var videoPage = new VideoPage("09NT7zVNrDlw"),
+        previewPlayer,
+        flashVar = {
+            duration: 3        };
+    var videoCopyableUrl = 'https://web.archive.org/web/20191104072153/https://ga.vyond.com/videos/09NT7zVNrDlw?utm_source=linkshare&utm_medium=linkshare&utm_campaign=usercontent';
+
+    function setupPreviewPlayer() {
+        var previewPlayerRetryCount = 5;
+        var video = document.getElementById('h5-player');
+
+        video.innerHTML = '';
+
+        previewPlayer = new PreviewPlayer("wss://preview.vyond.com", "09NT7zVNrDlw", true);
+        previewPlayer.setVideoElement(video);
+        previewPlayer.setUserAuthenticationToken('1:8af7a0920360fc523946b7fa20900d37c9cdc60ca8b684356b0030822c0b9e10:1Q/Zr1DXah/msl7S8mCq++RTQtqE6rntMS7j8S1GfqQ=');
+        previewPlayer.setFromPptConversion(false);
+    }
+
+    $('[data-action="user-opt-out"]').on('click', function(e) {
+        e.preventDefault();
+        if (previewPlayer) {
+            previewPlayer.userOptOut();
+        } else {
+            switchToFlashPlayer();
+            window.localStorage.setItem(PreviewPlayerConstants.USE_H5_PREVIEW_PREFERENCE_KEY, PreviewPlayerConstants.USER_OPT_OUT);
+        }
+        amplitudeSetUserProperty(
+            AMPLITUDE_USER_PROPERTY_KEYS.LATEST_PLAYER_METHOD,
+            AMPLITUDE_EVENT_PROPERTIES.PREVIEW_METHOD_LEGACY
+        );
+        amplitudeTrackEvent(
+            AMPLITUDE_EVENT.VIDEO_PLAYER_SWITCH,
+            {
+                video_id: '09NT7zVNrDlw',
+                action: AMPLITUDE_EVENT_PROPERTIES.PREVIEW_ACTION_HTML5_TO_LEGACY
+            }
+        );
+    });
+
+    $('[data-action="user-opt-in"]').on('click', function(e) {
+        e.preventDefault();
+        if (previewPlayer) {
+            previewPlayer.userOptIn();
+        } else {
+            switchToH5Player();
+            window.localStorage.setItem(PreviewPlayerConstants.USE_H5_PREVIEW_PREFERENCE_KEY, PreviewPlayerConstants.USER_OPT_IN);
+        }
+        amplitudeSetUserProperty(
+            AMPLITUDE_USER_PROPERTY_KEYS.LATEST_PLAYER_METHOD,
+            AMPLITUDE_EVENT_PROPERTIES.PREVIEW_METHOD_HTML5
+        );
+        amplitudeTrackEvent(
+            AMPLITUDE_EVENT.VIDEO_PLAYER_SWITCH,
+            {
+                video_id: '09NT7zVNrDlw',
+                action: AMPLITUDE_EVENT_PROPERTIES.PREVIEW_ACTION_LEGACY_TO_HTML5
+            }
+        );
+    });
+    if (!window.MediaSource) {
+        if ($.flash.available) {
+            // MSE not available
+            $('.player-container > .notification').addClass('hidden')
+                .filter('.browser-no-mse').removeClass('hidden');
+        } else {
+            // MSE and flash plugin not available
+            $('.player-container > .notification').addClass('hidden')
+                .filter('.browser-no-mse-no-flash').removeClass('hidden');
+            // refresh the page after 30 seconds
+            setTimeout(function() {
+                window.location.reload()
+            }, 30000);
+        }
+        // trigger h5 video compilation
+        $.post('https://ga.vyond.com/ajax/compileH5Video/09NT7zVNrDlw');
+    }
+    setupPreviewPlayer();
+    loadH5Preview();
+
+    $(document).on('click', 'a.for-unavailable', function() {
+        amplitudeTrackEvent(AMPLITUDE_EVENT.VIEW_PLANS_FROM_VIDEO_PAGE);
+    });
+</script>
+
+
+
+<script>
+$(window).on('amplitude_loaded', function() {
+    amplitudeTrackEvent(AMPLITUDE_EVENT.VISIT_VIDEO_PAGE, {"movie":"09NT7zVNrDlw","owner":0,"editor":0,"duration":"3","creator_plan":"gopublish","referral":null,"login_status":"no","video_status":"private","manage_end_date":""});
+});
+</script>
 
 
 
